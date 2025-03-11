@@ -18,15 +18,17 @@ $(VENV)/.venv-timestamp: uv.lock
 	# Create new virtual environment if setup.py has changed
 	uv venv --python 3.11 $(VENV)
 	uv pip install --prefix $(VENV) ruff
+	uv pip install --prefix $(VENV) mypy
 	touch $(VENV)/.venv-timestamp
 
 testenv: $(VENV)/.testenv
 
 $(VENV)/.testenv: $(VENV)/bin/activate
-	uv sync --all-packages --frozen \
+	uv sync --all-packages \
 		--extra "base" \
 		--extra "proxy_openai" \
 		--extra "rag" \
+		--extra "storage_chromadb" \
 		--extra "dbgpts" \
 		--link-mode=copy
 	touch $(VENV)/.testenv
