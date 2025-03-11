@@ -16,17 +16,20 @@ $(VENV)/bin/activate: $(VENV)/.venv-timestamp
 
 $(VENV)/.venv-timestamp: uv.lock
 	# Create new virtual environment if setup.py has changed
-	#python3 -m venv $(VENV)
-	uv venv --python 3.10 $(VENV)
+	uv venv --python 3.11 $(VENV)
 	uv pip install --prefix $(VENV) ruff
 	touch $(VENV)/.venv-timestamp
 
 testenv: $(VENV)/.testenv
 
 $(VENV)/.testenv: $(VENV)/bin/activate
-	# $(VENV_BIN)/pip install -e ".[framework]"
-	# the openai optional dependency is include framework and rag dependencies
-	$(VENV_BIN)/pip install -e ".[openai]"
+	uv sync --all-packages --frozen \
+		--extra "base" \
+		--extra "proxy_openai" \
+		--extra "rag" \
+		--extra "storage_chromadb" \
+		--extra "dbgpts" \
+		--link-mode=copy
 	touch $(VENV)/.testenv
 
 
