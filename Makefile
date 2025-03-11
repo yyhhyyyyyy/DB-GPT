@@ -27,7 +27,6 @@ $(VENV)/.testenv: $(VENV)/bin/activate
 		--extra "base" \
 		--extra "proxy_openai" \
 		--extra "rag" \
-		--extra "storage_chromadb" \
 		--extra "dbgpts" \
 		--link-mode=copy
 	touch $(VENV)/.testenv
@@ -78,7 +77,8 @@ test-doc: $(VENV)/.testenv ## Run doctests
 .PHONY: mypy
 mypy: $(VENV)/.testenv ## Run mypy checks
 	# https://github.com/python/mypy
-	$(VENV_BIN)/mypy --config-file .mypy.ini dbgpt/rag/ dbgpt/datasource/ dbgpt/client/ dbgpt/agent/ dbgpt/vis/ dbgpt/experimental/
+	$(VENV_BIN)/mypy --config-file .mypy.ini packages/
+	# $(VENV_BIN)/mypy --config-file .mypy.ini dbgpt/rag/ dbgpt/datasource/ dbgpt/client/ dbgpt/agent/ dbgpt/vis/ dbgpt/experimental/
 	# rag depends on core and storage, so we not need to check it again.
 	# $(VENV_BIN)/mypy --config-file .mypy.ini dbgpt/storage/
 	# $(VENV_BIN)/mypy --config-file .mypy.ini dbgpt/core/
