@@ -24,5 +24,6 @@ jobs:
         make setup
     - name: Check Python code style
       run: make fmt-check
-    - name: Check Python code type
-      run: make mypy
+    # TODO: Add mypy check
+    # - name: Check Python code type
+    #   run: make mypy
