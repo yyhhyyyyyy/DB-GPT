@@ -19,7 +19,9 @@ jobs:
     - name: Install uv
       run: curl -LsSf https://astral.sh/uv/install.sh | sh
     - name: Install dependencies and setup environment
-      run: make setup
+      run: |
+        uv -V
+        make setup
     - name: Check Python code style
       run: make fmt-check
     - name: Check Python code type
